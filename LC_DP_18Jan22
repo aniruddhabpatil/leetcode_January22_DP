@@ -1,0 +1,66 @@
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& a, int n) {
+        
+        int i,cnt=0,m=a.size();
+        if(n==0)
+            return true;
+        if(m==1)
+        {
+            if(a[0]==0 && n==1)
+                return true;
+            else
+                return false;
+        }
+        for(i=0;i<m;i++)
+        {
+            if(i==0 && a[i]==0 && m>1 && a[1]==0)
+            {
+                a[0]=1;
+                cnt++;
+                
+            }  
+            
+            if(i!=0 && i!=m-1 && a[i]==0 && a[i-1]==0 && a[i+1]==0)
+            {
+                a[i]=1;
+                cnt++;
+            }
+            
+            
+            if(i==m-1 && m>1 && a[m-1]==0 && a[m-2]==0)
+            {
+                a[m-1]=1;
+                cnt++;
+            }
+            cout<<i<<" "<<cnt<<endl;
+            
+        }
+        
+        if(cnt>=n)
+            return true;
+        else
+            return false;
+            
+            
+        /*
+        vector<int> flowerbed=a;
+        flowerbed.insert(flowerbed.begin(),0);
+        flowerbed.push_back(0);
+        for(int i = 1; i < flowerbed.size()-1; ++i)
+        {
+            if(flowerbed[i-1] + flowerbed[i] + flowerbed[i+1] == 0)
+            {
+                --n;
+                ++i;
+            }
+                
+        }
+        return n <=0;
+    
+        */
+            
+            
+        
+    }
+};
