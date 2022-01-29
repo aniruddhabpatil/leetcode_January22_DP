@@ -1,0 +1,85 @@
+// maximum area under histogram
+// https://leetcode.com/problems/largest-rectangle-in-histogram/
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& a)
+    {
+        int i,j,ans=0,n=a.size();
+        stack <pair<int,int> > st;
+        vector<int> left;
+        vector<int> right;
+       
+        for(i=0;i<n;i++)
+        {
+            if(st.size()==0)
+            {
+                left.push_back(-1);
+            }
+            else
+            {
+                if(st.size()>0 && st.top().first < a[i])
+                    left.push_back(st.top().second);
+                else if(st.size()>0 && st.top().first>=a[i])
+                {
+                    while(st.size()>0 && st.top().first>=a[i])
+                    {
+                        st.pop();
+                    }
+                    if(st.size()==0)
+                        left.push_back(-1);
+                    else
+                        left.push_back(st.top().second);
+                }
+            }
+            st.push(pair<int,int>{a[i],i});
+           
+           
+        }
+       
+        while(st.size()>0)
+        {
+            st.pop();
+        }    
+         
+        for(i=n-1;i>=0;i--)
+        {
+            if(st.size()==0)
+            {
+                right.push_back(n);
+            }
+            else
+            {
+                if(st.size()>0 && st.top().first < a[i])
+                    right.push_back(st.top().second);
+                else if(st.size()>0 && st.top().first>=a[i])
+                {
+                    while(st.size()>0 && st.top().first>=a[i])
+                    {
+                        st.pop();
+                    }
+                    if(st.size()==0)
+                        right.push_back(n);
+                    else
+                        right.push_back(st.top().second);
+                }
+            }
+            st.push(pair<int,int>{a[i],i});
+           
+           
+        }
+        reverse(right.begin(),right.end());
+         
+        for(i=0;i<n;i++)
+        {
+            j=right[i]-left[i]-1;
+            j*=a[i];
+            if(j>ans)
+                ans=j;
+        }
+         
+        return ans;
+       
+    }
+};
+
